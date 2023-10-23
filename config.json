@@ -1,0 +1,11 @@
+{
+    "database": {
+        "host": "localhost",
+        "user": "root",
+        "password": "1234",
+        "database": "email_service"
+    },
+    "server": {
+        "port": 8080
+    }
+}
