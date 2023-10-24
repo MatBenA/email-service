@@ -15,7 +15,6 @@ const usersDB = {};
 
 //data required: username - email - first name - last name - password
 usersDB.create = async function (userData, callBack) {
-
     //encrypt password
     userData.password = await bcrypt.hash(userData.password, 10);
     const newUser = Object.values(userData);
@@ -36,6 +35,21 @@ usersDB.create = async function (userData, callBack) {
             }
             return callBack({ code: err.code, detail: err });
         }
+        callBack(null, result);
+    });
+};
+
+usersDB.getData = async function (identifier, callBack) {
+    let column = "user_name"; //Asume the client sent its username
+    if (identifier.includes("@")) {
+        //if true the identifier is an email
+        column = "email";
+    }
+
+    const request = `SELECT user_name, email, first_name, last_name, password FROM users WHERE ${column} = ?`;
+
+    connection.query(request, identifier, (err, result) => {
+        if (err) return callBack(err);
         callBack(null, result);
     });
 };
