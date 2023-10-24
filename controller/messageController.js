@@ -11,3 +11,5 @@ function createMessage(req, res) {
         res.send("email sent");
     });
 }
+
+module.exports = app;

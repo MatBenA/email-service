@@ -5,6 +5,11 @@ const configDB = require("../config.json");
 //create db connection
 const connection = mysql.createConnection(configDB.database);
 
+connection.connect((err) => {
+    if (err) return console.log(err);
+    console.log("messages connected to DB")
+});
+
 //in this object the methods to export will be added
 const messagesDB = {};
 

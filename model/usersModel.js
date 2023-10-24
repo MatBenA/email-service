@@ -7,7 +7,7 @@ const configDB = require("../config.json");
 const connection = mysql.createConnection(configDB.database);
 
 connection.connect((err) => {
-    if (err) return err;
+    if (err) return console.log(err);
     console.log(`users connected to DB`);
 });
 
