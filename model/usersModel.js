@@ -13,8 +13,11 @@ connection.connect((err) => {
 
 const usersDB = {};
 
-usersDB.create = function (userData, callBack) {
-    
+//data required: username - email - first name - last name - password
+usersDB.create = async function (userData, callBack) {
+
+    //encrypt password
+    userData.password = await bcrypt.hash(userData.password, 10);
     const newUser = Object.values(userData);
     const request =
         "INSERT INTO users (user_name, email, first_name, last_name, password) VALUES (?,?,?,?,?);";
