@@ -8,10 +8,16 @@ CREATE TABLE users (
 	first_name VARCHAR(50) NOT NULL,
 	last_name VARCHAR(50) NOT NULL,
 	password VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP,
     deleted_at TIMESTAMP,
     PRIMARY KEY (user_id)
+);
+
+CREATE TABLE status (
+	status_id INT NOT NULL AUTO_INCREMENT,
+    type VARCHAR (40),
+    PRIMARY KEY (status_id)
 );
 
 CREATE TABLE messages (
@@ -21,17 +27,10 @@ CREATE TABLE messages (
     is_read BOOL,
     user_id INT NOT NULL,
     status_id INT,
-    created_at TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP,
     deleted_at TIMESTAMP,
     PRIMARY KEY (message_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (status_id) REFERENCES status(status_id)
 );
-
-CREATE TABLE status (
-	status_id INT NOT NULL AUTO_INCREMENT,
-    type VARCHAR (40),
-    PRIMARY KEY (status_id)
-);
-
