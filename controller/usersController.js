@@ -7,8 +7,13 @@ app.post("/api/email/user", createUser);
 function createUser(req, res) {
     const userData = req.body;
     usersDB.create(userData, (err, result) => {
-        if(err) return res.status(500).send(err);
-        res.send("user created succesfully");
+        if (err) {
+            if (err.code === "ER_DUP_ENTRY")
+                return res.status(409).send(err.detail);
+            return res.status(500).send(err.code);
+        }
+        if (err) return res.status(500).send(err.code);
+        res.status(201).send("user created succesfully");
     });
 }
 
