@@ -8,6 +8,8 @@ function createUser(req, res) {
     const userData = req.body;
     usersDB.create(userData, (err, result) => {
         if(err) return res.status(500).send(err);
-        res.send(result);
+        res.send("user created succesfully");
     });
 }
+
+module.exports = app;
