@@ -39,19 +39,34 @@ usersDB.create = async function (userData, callBack) {
     });
 };
 
-usersDB.getData = async function (identifier, callBack) {
+usersDB.loginData = function (loginData, callBack) {
     let column = "user_name"; //Asume the client sent its username
-    if (identifier.includes("@")) {
+    if (loginData.user.includes("@")) {
         //if true the identifier is an email
         column = "email";
     }
 
     const request = `SELECT user_name, email, first_name, last_name, password FROM users WHERE ${column} = ?`;
 
-    connection.query(request, identifier, (err, result) => {
-        if (err) return callBack(err);
+        connection.query(request, loginData.user, async (err, result) => {
+        if(err) return callBack(err);
+        //if user was not found
+        if(result.length === 0) return callBack(null, "Invalid user or password");
+        
+        //comparing password received with password from database
+        const match = await bcrypt.compare(loginData.password, result[0].password);
+        if(!match) return callBack(null, "Invalid user or password");
+        
         callBack(null, result);
     });
 };
+
+//receive data
+//request data from database (user -> password, email, username, firstname, lastname)
+//if not found return user not found
+//bcrypt compare passwords
+//if incorrect return invalid password
+//if correct create jwt and return it
+
 
 module.exports = usersDB;
