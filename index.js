@@ -5,7 +5,7 @@ const config = require("./config.json");
 app.use(express.json());
 
 const securityController = require("./controller/securityController");
-app.use(securityController);
+app.use(securityController.app);
 
 const usersController = require("./controller/usersController");
 app.use(usersController);
