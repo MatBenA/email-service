@@ -53,11 +53,16 @@ usersDB.loginData = function (loginData, callBack) {
         //if user was not found
         if(result.length === 0) return callBack(null, "404");
         
+        //turn result into an object
+        const user = JSON.parse(JSON.stringify(result[0]));
+
         //comparing password received with password from database
-        const match = await bcrypt.compare(loginData.password, result[0].password);
+        const match = await bcrypt.compare(loginData.password, user.password);
         if(!match) return callBack(null, null, match); 
         
-        callBack(null, result, match);
+        //we delete the password from the result for security
+        delete user.password
+        callBack(null, user, match);
     });
 };
 
