@@ -51,13 +51,13 @@ usersDB.loginData = function (loginData, callBack) {
         connection.query(request, loginData.user, async (err, result) => {
         if(err) return callBack(err);
         //if user was not found
-        if(result.length === 0) return callBack(null, "Invalid user or password");
+        if(result.length === 0) return callBack(null, "404");
         
         //comparing password received with password from database
         const match = await bcrypt.compare(loginData.password, result[0].password);
-        if(!match) return callBack(null, "Invalid user or password");
+        if(!match) return callBack(null, null, match); 
         
-        callBack(null, result);
+        callBack(null, result, match);
     });
 };
 
