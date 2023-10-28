@@ -35,6 +35,10 @@ CREATE TABLE messages (
     FOREIGN KEY (status_id) REFERENCES status(status_id)
 );
 
+CREATE TABLE refresh_tokens (
+	token VARCHAR(500)
+);
+
 INSERT INTO status (name) VALUES ("inbox");
 INSERT INTO status (name) VALUES ("sent");
 INSERT INTO status (name) VALUES ("draft");
