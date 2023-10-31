@@ -15,10 +15,14 @@ connection.connect((err) => {
 const messagesDB = {};
 
 messagesDB.create = function (messageData, callBack) {
-    messageData = Object.values(messageData);
+    const messageContent = [
+        messageData.subject,
+        messageData.message,
+        messageData.email,
+    ];
     const request =
-        "INSERT INTO messages (subject, message, user_id) VALUES (?, ?, ?);";
-    connection.query(request, messageData, (err, result) => {
+        "INSERT INTO messages (subject, message, user_id) SELECT ?, ?, u.user_id FROM users u WHERE u.email = ?";
+    connection.query(request, messageContent, (err, result) => {
         if (err) return callBack(err);
         callBack(null, result);
     });
