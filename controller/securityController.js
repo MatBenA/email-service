@@ -22,8 +22,13 @@ async function login(req, res) {
     });
 }
 
+//verify jwt to auth user
 function verifyToken(req, res, next) {
-    const accessToken = req.body.accessToken;
+    const authHeader = req.headers.authorization;
+
+    //the header is > {authorization: "Bearer tokenxxxxxxxx"} we split it to only get the token part
+    const accessToken = authHeader && authHeader.split(" ")[1];
+
     if (!accessToken) return res.status(401).send("An error has ocurred.");
     jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
         if (err) return res.status(403).send("An error has occured.");
