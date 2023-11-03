@@ -48,20 +48,20 @@ usersDB.loginData = function (loginData, callBack) {
 
     const request = `SELECT user_name, email, first_name, last_name, password FROM users WHERE ${column} = ?`;
 
-        connection.query(request, loginData.user, async (err, result) => {
-        if(err) return callBack(err);
+    connection.query(request, loginData.user, async (err, result) => {
+        if (err) return callBack(err);
         //if user was not found
-        if(result.length === 0) return callBack(null, "404");
-        
+        if (result.length === 0) return callBack(null, "404");
+
         //turn result into an object
         const user = JSON.parse(JSON.stringify(result[0]));
 
         //comparing password received with password from database
         const match = await bcrypt.compare(loginData.password, user.password);
-        if(!match) return callBack(null, null, match); 
-        
+        if (!match) return callBack(null, null, match);
+
         //we delete the password from the result for security
-        delete user.password
+        delete user.password;
         callBack(null, user, match);
     });
 };
@@ -72,6 +72,5 @@ usersDB.loginData = function (loginData, callBack) {
 //bcrypt compare passwords
 //if incorrect return invalid password
 //if correct create jwt and return it
-
 
 module.exports = usersDB;

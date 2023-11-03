@@ -28,20 +28,14 @@ CREATE TABLE refresh_tokens (
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
-CREATE TABLE hosters (
-	hoster_id INT NOT NULL AUTO_INCREMENT,
-    host VARCHAR(500),
-    PRIMARY KEY (hoster_id)
+CREATE TABLE server_settings (
+    service_name VARCHAR(80) NOT NULL,
+    api_key VARCHAR(300),
+    domain VARCHAR(255),
+    user_id INT NOT NULL,
+    selected BOOL NOT NULL DEFAULT FALSE,
+    FOREIGN KEY (user_id) REFERENCES users (user_id)
 );
 
-CREATE TABLE connections (
-    port INT NOT NULL DEFAULT 587,
-    password VARCHAR(500) NOT NULL,
-    hoster_id INT NOT NULL,
-    user_id INT NOT NULL,
-    FOREIGN KEY (hoster_id)
-        REFERENCES hosters (hoster_id),
-    FOREIGN KEY (user_id)
-        REFERENCES users (user_id)
-);
-    
+
+
