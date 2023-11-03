@@ -10,16 +10,26 @@ connection.connect((err) => {
     console.log(`settings connected to DB`);
 });
 
-const usersDB = {};
+const settingsDB = {};
 
-usersDB.newSettings = function (serviceData, email, callBack){
+settingsDB.new = function (serviceData, email, callBack) {
+    const request =
+        "INSERT INTO server_settings (service_name, api_key, domain, user_id) SELECT ?, ?, ?, u.user_id FROM users u WHERE u.email = ?;";
 
-    const query = "INSERT INTO server_settings (service_name, api_key, domain, user_id) SELECT ?, ?, ?, u.user_id FROM users u WHERE u.email = ?;";
-
-    connection.query(query, [...serviceData, email], (err, result) => {
-        if(err) return callBack(err);
+    connection.query(request, [...serviceData, email], (err, result) => {
+        if (err) return callBack(err);
         callBack(null, result);
-    })
-}
+    });
+};
 
-module.exports = usersDB;
+settingsDB.select = function (service, callBack) {
+    const request =
+        "UPDATE server_settings AS ss INNER JOIN users AS u ON ss.user_id = u.user_id SET ss.selected = (ss.service_name = ?) WHERE u.user_name = ?;";
+
+    connection.query(request, service, (err, result) => {
+        if (err) return callBack(err);
+        callBack(null, result);
+    });
+};
+
+module.exports = settingsDB;
