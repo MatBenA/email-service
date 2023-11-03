@@ -14,6 +14,7 @@ async function login(req, res) {
             return res.status(404).send("Invalid user or password");
 
         //generate and send validation tokens
+        //will contain username, email, first name and last_name
         const token = jwt.sign(result, process.env.ACCESS_TOKEN_SECRET, {
             expiresIn: "25m",
         });

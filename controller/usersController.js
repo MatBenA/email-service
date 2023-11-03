@@ -1,5 +1,5 @@
 const usersDB = require("../model/usersModel");
-const verifyToken = require("./securityController").verifyToken;
+const { verifyToken } = require("./securityController");
 const express = require("express");
 const app = express();
 

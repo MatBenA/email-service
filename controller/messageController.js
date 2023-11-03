@@ -1,7 +1,7 @@
 //initial config
 const express = require("express");
 const messageDB = require("../model/messageModel");
-const verifyToken = require("./securityController").verifyToken;
+const { verifyToken } = require("./securityController");
 const app = express();
 
 app.post("/api/email/send", verifyToken, createMessage);

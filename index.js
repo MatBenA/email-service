@@ -13,6 +13,9 @@ app.use(usersController);
 const messageController = require("./controller/messageController");
 app.use(messageController);
 
+const settingsConstroller = require("./controller/settingsController");
+app.use(settingsConstroller);
+
 app.listen(config.server.port, (err) => {
     if (err) return console.log(err);
     console.log(`Listening at port ${config.server.port}`);
