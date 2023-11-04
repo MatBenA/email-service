@@ -28,6 +28,7 @@ settingsDB.select = function (service, callBack) {
 
     connection.query(request, service, (err, result) => {
         if (err) return callBack(err);
+        if (result){}
         callBack(null, result);
     });
 };
